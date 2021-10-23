@@ -44,7 +44,15 @@ class Sender(BasicSender.BasicSender):
             ##### your code goes here ... #####
             # your code should be able to handle packet 
             # 1. loss
+            response = self.receive(0.5)
+             while response is None:
+             self.send(packet.encode())
+            response = self.receive(0.5)
             # 2. corruption
+            response = self.receive(0.5)
+            while Checksum.validate_checksum(response) == False:
+                self.send(packet.encode())
+                response = self.receive(0.5)
             # 3. duplication
             # 4. delay
             # add new functions as necessary
