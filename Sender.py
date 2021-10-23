@@ -56,7 +56,7 @@ class Sender(BasicSender.BasicSender):
             # 3. duplication
             # 4. delay
             # add new functions as necessary
-            response = self.receive()
+            # response = self.receive()
             resp_str = response.decode()
             self.handle_response(resp_str)
             ##### your code ends here ... #####
