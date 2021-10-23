@@ -8,6 +8,8 @@ import math
 import Checksum
 import BasicSender
 
+# initial commit
+
 '''
 This is a skeleton sender class. Create a fantastic transport protocol here.
 '''
