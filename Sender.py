@@ -39,7 +39,7 @@ class Sender(BasicSender.BasicSender):
 
             packet = self.make_packet(msg_type,seqno,msg)
             self.send(packet.encode())
-            print("sent: %s" % packet)
+            # print("sent: %s" % packet)
 
             ##### your code goes here ... #####
             # your code should be able to handle packet 
