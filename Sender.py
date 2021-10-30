@@ -20,18 +20,25 @@ class Sender(BasicSender.BasicSender):
     def handle_response(self,response_packet):
         if Checksum.validate_checksum(response_packet):
             print("recv: %s" % response_packet)
+            return False
         else:
             print("recv: %s <--- CHECKSUM FAILED" % response_packet)
+            return True
 
     # Main sending loop.
     def start(self):
+        # corruption_flag = True
         seqno = 0
         msg = self.infile.read(500).decode()
-        msg_type = None
+        next_msg = self.infile.read(500).decode()
+        # corruption_flag = True
+        msg_type = 'data'
+        duplication_dict ={}
         while not msg_type == 'end':
-            next_msg = self.infile.read(500).decode()
+            # msg_type = 'data'
+            # next_msg = self.infile.read(500).decode()
 
-            msg_type = 'data'
+            # msg_type = 'data'
             if seqno == 0:
                 msg_type = 'start'
             elif next_msg == "":
@@ -39,7 +46,7 @@ class Sender(BasicSender.BasicSender):
 
             packet = self.make_packet(msg_type,seqno,msg)
             self.send(packet.encode())
-            print("sent: %s" % packet)
+            # print("sent: %s" % packet)
 
             ##### your code goes here ... #####
             # your code should be able to handle packet 
@@ -48,13 +55,27 @@ class Sender(BasicSender.BasicSender):
             # 3. duplication
             # 4. delay
             # add new functions as necessary
-            response = self.receive()
-            resp_str = response.decode()
-            self.handle_response(resp_str)
-            ##### your code ends here ... #####
 
-            msg = next_msg
-            seqno += 1
+            # the receiver has issues, in the basic sender this takes a timeout parameter; which we can use; setting it to 2 seconds
+            # 1. loss
+            response = self.receive(1)
+            while response == None:
+                self.send(packet.encode())
+                response = self.receive(1)
+
+            resp_str = response.decode()
+            corruption_flag = self.handle_response(resp_str)
+            response_ack = resp_str.split('|')[1]
+
+            if response_ack not in duplication_dict:
+                duplication_dict[response_ack] = 1
+            else:
+                print("Duplicate data")
+
+            if not corruption_flag:
+                msg = next_msg
+                seqno += 1
+                next_msg = self.infile.read(500).decode()
 
         self.infile.close()
  
