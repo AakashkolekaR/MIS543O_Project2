@@ -138,9 +138,6 @@ import math
 import Checksum
 import BasicSender
 
-'''
-This is a skeleton sender class. Create a fantastic transport protocol here.
-'''
 class Sender(BasicSender.BasicSender):
     def __init__(self, dest, port, filename, debug=False):
         super(Sender, self).__init__(dest, port, filename, debug)
@@ -223,11 +220,6 @@ class Sender(BasicSender.BasicSender):
         self.infile.close()
  
 
-'''
-This will be run if you run this script from the command line. You should not
-change any of this; the grader may rely on the behavior here to test your
-submission.
-'''
 if __name__ == "__main__":
     def usage():
         print("BEARDOWN-TP Sender")
