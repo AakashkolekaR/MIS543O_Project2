@@ -23,7 +23,7 @@ class Sender(BasicSender.BasicSender):
 
         def resend_packet(packet):
             self.send(packet.encode())
-            response = self.receive(1)
+            response = self.receive(0.5)
             return response
 
         seqno = 0
@@ -50,7 +50,7 @@ class Sender(BasicSender.BasicSender):
             # 3. duplication
             # 4. delay
 
-            response = self.receive(1)
+            response = self.receive(0.5)
 
             while True:
                 # loss

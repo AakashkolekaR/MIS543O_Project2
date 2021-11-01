@@ -16,9 +16,9 @@ forwarder, so they will magically run.
 """
 def tests_to_run(forwarder):
 	# BasicTest.BasicTest(forwarder, "README")
-	# RandomDropTest.RandomDropTest(forwarder, "README")
+	RandomDropTest.RandomDropTest(forwarder, "README")
 	# RandomCorruptTest.RandomCorruptTest(forwarder, "README")
-	RandomDuplicationTest.RandomDuplicationTest(forwarder, "README")
+	# RandomDuplicationTest.RandomDuplicationTest(forwarder, "README")
 	# RandomDelayTest.RandomDelayTest(forwarder, "README")
 
 
